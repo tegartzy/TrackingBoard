@@ -1,52 +1,42 @@
 <?php
 include 'layouts/header.php';
+include 'config/database.php';
+include 'config/app.php';
 
-// session_start();
-// if (!isset($_SESSION["login"])){
-//     echo "<script>
-//         alert('login dulu');
-//         document.location.href = 'login.php';
-//     </script>";
-// exit;
-// }
+
+if (isset($_POST['proses']) && !empty($_POST['judul']) && !empty($_POST['isi'])) {
+    $judul = $_POST['judul'];
+    $isi = $_POST['isi'];
+
+    $query = "INSERT INTO note (judul, isi) VALUES ('$judul', '$isi')";
+    mysqli_query($db, $query);
+
+    // setelah berhasil simpan, redirect
+    header("Location: index.php?status=sukses");
+    exit; // penting, biar script berhenti setelah redirect
+}
 ?>
 
-<style>
-    .card-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-    }
 
-    .card-body,
-    .card-head {
-
-        width: 300px;
-        border-radius: 10px;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-        padding: 15px;
-        display: flex;
-        flex-direction: column;
-        margin: 2% auto;
-    }
-
-    .card-head {
-        background-color: #FF9149;
-        width: 90%;
-        justify-content: center;
-        align-items: center;
-    }
-</style>
+ 
 
 <div class="card-head">
-    <div class="card-body">
-        
-    <canvas id="myCanvas" width="200" height="100">tes</canvas>
-    </div>
-
-    
-
+    <form method="post" action="">
+        <table>
+            <tr>
+                <td>judul</td>
+                <td><input type="text" name="judul"></td>
+            </tr>
+            <tr>
+                <td>isi</td>
+                <td><input type="text" name="isi"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="simpan" name="proses"></td>
+            </tr>
+        </table>
+    </form>
 </div>
 
 <?php include 'layouts/footer.php'; ?>
